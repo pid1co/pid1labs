@@ -26,19 +26,13 @@ fnox-env = "https://github.com/jdx/mise-env-fnox"
 [tasks.prepare-external-secrets]
 description = "Create/update 1Password connect credentials secret"
 run = """
-kubectl create ns external-secrets
+kubectl create ns external-secrets --dry-run=client -o yaml | kubectl apply -f -
 
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: onepassword-connect-credentials
-  namespace: external-secrets
-type: Opaque
-data:
-  1password-credentials.json: $ONEPASS_CREDENTIALS
-  token: $ONEPASS_CONNECT_TOKEN
-EOF
+kubectl create secret generic onepassword-connect-credentials \
+  --namespace external-secrets \
+  --from-literal=1password-credentials.json="$ONEPASS_CREDENTIALS" \
+  --from-literal=token="$ONEPASS_CONNECT_TOKEN" \
+  --dry-run=client -o yaml | kubectl apply -f -
 """
 
 [tasks.apply-flux-cluster]
