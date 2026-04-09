@@ -52,7 +52,7 @@ kustomize build ${MISE_PROJECT_ROOT}/bootstrap/flux  | kubectl apply -f -
 description = "Decrypt and write talos secrets to disk"
 run = """
 mkdir -p talos
-fnox get TALOSCONFIG        > talos/talosconfig
+fnox get TALOSCONFIG_ENC        > talos/talosconfig
 fnox get TALOS_CONTROLPLANE > talos/controlplane.yaml
 fnox get TALOS_WORKER       > talos/worker.yaml
 fnox get KUBECONFIG_ENCk    > kubeconfig
@@ -62,7 +62,7 @@ chmod 600 talos/talosconfig kubeconfig
 [tasks.push-talos-secrets]
 description = "Encrypt and store talos secrets in fnox"
 run = """
-fnox set TALOSCONFIG        "$(cat talos/talosconfig)"       --provider age
+fnox set TALOSCONFIG_ENC        "$(cat talos/talosconfig)"       --provider age
 fnox set TALOS_CONTROLPLANE "$(cat talos/controlplane.yaml)" --provider age
 fnox set TALOS_WORKER       "$(cat talos/worker.yaml)"       --provider age
 fnox set KUBECONFIG_ENC         "$(cat kubeconfig)"              --provider age
