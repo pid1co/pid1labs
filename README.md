@@ -1,6 +1,9 @@
 # Talos Install
 
-`mise install
+```
+mise install
+mise run fetch-talos-secrets
+```
 
 ```
 talosctl gen config pid1labs https://192.168.168.15:6443  --install-image=d4ed705ed680e200144df495701db951b85ec0361e2868456643ee721a497344 --install-disk /dev/nvme0n1 --config-patch @cni.yaml
