@@ -55,7 +55,7 @@ mkdir -p talos
 fnox get TALOSCONFIG        > talos/talosconfig
 fnox get TALOS_CONTROLPLANE > talos/controlplane.yaml
 fnox get TALOS_WORKER       > talos/worker.yaml
-fnox get KUBECONFIG         > kubeconfig
+fnox get KUBECONFIG_ENCk    > kubeconfig
 chmod 600 talos/talosconfig kubeconfig
 """
 
@@ -65,5 +65,5 @@ run = """
 fnox set TALOSCONFIG        "$(cat talos/talosconfig)"       --provider age
 fnox set TALOS_CONTROLPLANE "$(cat talos/controlplane.yaml)" --provider age
 fnox set TALOS_WORKER       "$(cat talos/worker.yaml)"       --provider age
-fnox set KUBECONFIG         "$(cat kubeconfig)"              --provider age
+fnox set KUBECONFIG_ENC         "$(cat kubeconfig)"              --provider age
 """
