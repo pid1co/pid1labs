@@ -5,7 +5,7 @@ metadata:
   name: pid1labs
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 5m
   url: https://github.com/pid1co/pid1labs
   ref:
     branch: main
