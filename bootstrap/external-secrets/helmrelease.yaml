@@ -7,9 +7,6 @@ metadata:
 spec:
   interval: 30m
   timeout: 10m
-  dependsOn:
-    - name: external-secrets-crds
-      namespace: flux-system
   chart:
     spec:
       chart: external-secrets
