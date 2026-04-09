@@ -10,7 +10,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: pid1labs
   wait: true
 ---
 # Deploy external-secrets operator first
@@ -25,7 +25,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: pid1labs
   wait: true
   dependsOn:
     - name: cluster-repositories
@@ -42,7 +42,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: pid1labs
   wait: false  # ClusterSecretStore health not evaluated by Flux by default
   dependsOn:
     - name: cluster-secrets
