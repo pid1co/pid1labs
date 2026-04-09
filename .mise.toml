@@ -1,0 +1,69 @@
+[env]
+_.fnox-env = { tools = true }
+KUBECONFIG = "{{config_root}}/kubeconfig"
+TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+
+
+[plugins]
+fnox-env = "https://github.com/jdx/mise-env-fnox"
+
+[tools]
+"aqua:1password/cli" = "2.33.1"
+"github:jdx/fnox" = "v1.20.0"
+"aqua:cilium/cilium-cli" = "0.19.2"
+"aqua:cli/cli" = "2.87.3"
+"aqua:FiloSottile/age" = "1.3.1"
+"aqua:fluxcd/flux2" = "2.8.1"
+"aqua:go-task/task" = "3.49.1"
+"aqua:helm/helm" = "4.1.1"
+"aqua:helmfile/helmfile" = "1.4.2"
+"aqua:jqlang/jq" = "1.8.1"
+"aqua:kubernetes-sigs/kustomize" = "5.7.1"
+"aqua:kubernetes/kubernetes/kubectl" = "1.35.2"
+"aqua:mikefarah/yq" = "4.52.4"
+"aqua:siderolabs/talos" = "1.12.4"
+
+[tasks.prepare-external-secrets]
+description = "Create/update 1Password connect credentials secret"
+run = """
+kubectl create ns external-secrets
+
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: onepassword-connect-credentials
+  namespace: external-secrets
+type: Opaque
+data:
+  1password-credentials.json: $ONEPASS_CREDENTIALS
+  token: $ONEPASS_CONNECT_TOKEN
+EOF
+"""
+
+[tasks.apply-flux-cluster]
+description = "Create git/helm repos. Setup external-secrets"
+run = """
+kustomize build ${MISE_PROJECT_ROOT}/bootstrap/flux  | kubectl apply -f -
+"""
+
+
+[tasks.fetch-talos-secrets]
+description = "Decrypt and write talos secrets to disk"
+run = """
+mkdir -p talos
+fnox get TALOSCONFIG        > talos/talosconfig
+fnox get TALOS_CONTROLPLANE > talos/controlplane.yaml
+fnox get TALOS_WORKER       > talos/worker.yaml
+fnox get KUBECONFIG         > kubeconfig
+chmod 600 talos/talosconfig kubeconfig
+"""
+
+[tasks.push-talos-secrets]
+description = "Encrypt and store talos secrets in fnox"
+run = """
+fnox set TALOSCONFIG        "$(cat talos/talosconfig)"       --provider age
+fnox set TALOS_CONTROLPLANE "$(cat talos/controlplane.yaml)" --provider age
+fnox set TALOS_WORKER       "$(cat talos/worker.yaml)"       --provider age
+fnox set KUBECONFIG         "$(cat kubeconfig)"              --provider age
+"""

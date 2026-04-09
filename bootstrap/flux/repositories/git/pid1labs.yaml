@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: pid1labs
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: ssh://git@github.com/pid1co/pid1labs.git
+  ref:
+    branch: main
