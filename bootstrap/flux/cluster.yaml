@@ -47,6 +47,22 @@ spec:
   wait: false  # ClusterSecretStore health not evaluated by Flux by default
   dependsOn:
     - name: cluster-secrets
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-nvidia
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./nvidia
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: pid1labs
+  wait: true
+  dependsOn:
+    - name: cluster-repositories
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
