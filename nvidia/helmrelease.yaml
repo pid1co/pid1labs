@@ -18,3 +18,7 @@ spec:
     runtimeClassName: nvidia
     deviceListStrategy: envvar
     compatWithCPUManager: true
+    nfd:
+      enabled: true
+    gfd:
+      enabled: true
