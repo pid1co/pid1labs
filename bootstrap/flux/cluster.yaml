@@ -95,6 +95,20 @@ spec:
   wait: true
   dependsOn:
     - name: cluster-repositories
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: coredns
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./coredns
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: pid1labs
+  wait: true
 #
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
