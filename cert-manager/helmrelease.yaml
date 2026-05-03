@@ -15,16 +15,17 @@ spec:
         name: jetstack
         namespace: flux-system
   install:
-    crds: Skip  # CRDs installed separately via server-side apply
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    crds: Skip
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       retries: 3
   values:
-    installCRDs: false  # CRDs managed separately
+    crds:
+      enabled: true
 
     # Prometheus metrics
     prometheus:
