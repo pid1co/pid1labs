@@ -140,9 +140,8 @@ spec:
     kind: GitRepository
     name: pid1labs
   wait: true
+  dependsOn:
     - name: cluster-repositories
-#
-#
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
