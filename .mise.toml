@@ -3,7 +3,6 @@ _.fnox-env = { tools = true }
 KUBECONFIG = "{{config_root}}/kubeconfig"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 
-
 [plugins]
 fnox-env = "https://github.com/jdx/mise-env-fnox"
 
@@ -22,6 +21,7 @@ fnox-env = "https://github.com/jdx/mise-env-fnox"
 "aqua:kubernetes/kubernetes/kubectl" = "1.35.2"
 "aqua:mikefarah/yq" = "4.52.4"
 "aqua:siderolabs/talos" = "1.12.4"
+"aqua:kubevirt/kubevirt/virtctl" = "latest"
 
 [tasks.prepare-external-secrets]
 description = "Create/update 1Password connect credentials secret"
